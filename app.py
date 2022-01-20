@@ -25,15 +25,30 @@ def add_time(start, duration):
   endTimeHrs = endTime/60
   formattedHrs = math.floor(endTimeHrs)
   formattedMins = int(math.fmod(endTime, 60))
-  formattedTime = str(formattedHrs) + ':' + str(formattedMins)
+
+  meridianFlip = 0
+  while endTime > 720:
+    endTime = endTime - 720
+    meridianFlip = meridianFlip + 1
+    continue
+
+  if (meridianFlip % 2) == 0:
+    endDay = startDay[0]
+  else:
+    if startDay[0] == 'AM':
+      endDay = 'PM'
+    else:
+      endDay = 'AM'
+
+  new_time = str(formattedHrs) + ':' + str(formattedMins) + ' ' + str(endDay)
 
   print('Hr:', intHr)
   print('Min:', intMin)
-  print('AM/PM:', startDay)
+  print('Start Meridian:', startDay)
   print('Start time is ', militaryMin, 'minutes past midnight.')
   print('Total duration is', totalDur, 'minutes.')
   print('The end time is', endTime, 'minutes after midnight.')
-  print('Or:', formattedTime)
-  #return new_time
+  print('Or:', new_time)
+  return new_time
 
-print(add_time("3:30 PM", "2:12"))
+print(add_time("2:05 AM", "12:00"))
