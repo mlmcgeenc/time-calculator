@@ -23,7 +23,7 @@ def add_time(start, duration):
 
   endTime = militaryMin + totalDur
   endTimeHrs = endTime/60
-  formattedHrs = math.floor(endTimeHrs)
+  #formattedHrs = math.floor(endTimeHrs) - (meridianFlip * 12)
   formattedMins = int(math.fmod(endTime, 60))
 
   meridianFlip = 0
@@ -31,6 +31,8 @@ def add_time(start, duration):
     endTime = endTime - 720
     meridianFlip = meridianFlip + 1
     continue
+
+  formattedHrs = math.floor(endTimeHrs) - (meridianFlip * 12)
 
   if (meridianFlip % 2) == 0:
     endDay = startDay[0]
@@ -40,7 +42,7 @@ def add_time(start, duration):
     else:
       endDay = 'AM'
 
-  new_time = str(formattedHrs) + ':' + str("{:02d}".format(formattedMins)) + ' ' + str(endDay)
+  new_time = str(formattedHrs) + ':' + str("{:02d}".format(formattedMins)) + ' ' + str(endDay) + ' ' + str(meridianFlip/2) + ' days later'
 
   print('Hr:', intHr)
   print('Min:', intMin)
@@ -50,4 +52,4 @@ def add_time(start, duration):
   print('The end time is', endTime, 'minutes after midnight.')
   return new_time
 
-print(add_time("2:05 AM", "2:00"))
+print(add_time("1:00 PM", "48:00"))
