@@ -40,7 +40,7 @@ def add_time(start, duration):
     else:
       endDay = 'AM'
 
-  new_time = str(formattedHrs) + ':' + str(formattedMins) + ' ' + str(endDay)
+  new_time = str(formattedHrs) + ':' + str("{:02d}".format(formattedMins)) + ' ' + str(endDay)
 
   print('Hr:', intHr)
   print('Min:', intMin)
@@ -48,7 +48,6 @@ def add_time(start, duration):
   print('Start time is ', militaryMin, 'minutes past midnight.')
   print('Total duration is', totalDur, 'minutes.')
   print('The end time is', endTime, 'minutes after midnight.')
-  print('Or:', new_time)
   return new_time
 
-print(add_time("2:05 AM", "12:00"))
+print(add_time("2:05 AM", "2:00"))
