@@ -1,7 +1,3 @@
-"3:30 PM", "2:12"
-
-import re
-import math
 def add_time(start, duration):
   startHr = re.findall("(\d+):", start)
   intHr = int(startHr[0])
@@ -32,7 +28,17 @@ def add_time(start, duration):
     meridianFlip = meridianFlip + 1
     continue
 
+  if (meridianFlip/2) > 0:
+    if (meridianFlip/2) <= 1:
+      dayCount = 'next day'
+    else:
+      dayCount = str(meridianFlip) + ' days later'
+
   formattedHrs = math.floor(endTimeHrs) - (meridianFlip * 12)
+  if formattedHrs == 0:
+    displayHrs = 12
+  else:
+    displayHrs = formattedHrs
 
   if (meridianFlip % 2) == 0:
     endDay = startDay[0]
@@ -42,14 +48,11 @@ def add_time(start, duration):
     else:
       endDay = 'AM'
 
-  new_time = str(formattedHrs) + ':' + str("{:02d}".format(formattedMins)) + ' ' + str(endDay) + ' ' + str(meridianFlip/2) + ' days later'
+  new_time = str(displayHrs) + ':' + str("{:02d}".format(formattedMins)) + ' ' + str(endDay) + ' ' + dayCount
 
-  print('Hr:', intHr)
-  print('Min:', intMin)
-  print('Start Meridian:', startDay)
   print('Start time is ', militaryMin, 'minutes past midnight.')
   print('Total duration is', totalDur, 'minutes.')
   print('The end time is', endTime, 'minutes after midnight.')
   return new_time
 
-print(add_time("1:00 PM", "48:00"))
+print(add_time("10:10 PM", "30:30"))
