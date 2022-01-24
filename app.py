@@ -1,58 +1,31 @@
-def add_time(start, duration):
-  startHr = re.findall("(\d+):", start)
-  intHr = int(startHr[0])
-  startMin = re.findall(":(\d+)", start)
-  intMin = int(startMin[0])
-  startDay = re.findall("(AM|PM)", start)
+def test_func (start, duration):
+  startTime, startMeridian = start.split()
+  startHr, startMin = startTime.split(':')
+  durHr, durMin = duration.split(':')
 
-  if startDay == 'PM':
-    militaryHr = (intHr * 60) + 720
+  sumMin = int(startMin) + int(durMin)
+  addHr = 0
+  halfDayCount = 0
+  while sumMin > 60:
+    sumMin = sumMin - 60
+    addHr = addHr + 1
+  sumHr = int(startHr) + int(durHr) + addHr
+  while sumHr > 12:
+    sumHr = sumHr - 12
+    halfDayCount = halfDayCount + 1
+  dayCount = halfDayCount/2
+  
+  if (dayCount % 2) == 0:
+    endDay = startMeridian
   else:
-    militaryHr = (intHr * 60)
-  militaryMin = (militaryHr + intMin)
-
-  durHr = re.findall("(\d+):", duration)
-  intDurHr = int(durHr[0])
-  durMin = re.findall(":(\d+)", duration)
-  intDurMin = int(durMin[0])
-  totalDur = (intDurHr * 60) + intDurMin
-
-  endTime = militaryMin + totalDur
-  endTimeHrs = endTime/60
-  #formattedHrs = math.floor(endTimeHrs) - (meridianFlip * 12)
-  formattedMins = int(math.fmod(endTime, 60))
-
-  meridianFlip = 0
-  while endTime > 720:
-    endTime = endTime - 720
-    meridianFlip = meridianFlip + 1
-    continue
-
-  if (meridianFlip/2) > 0:
-    if (meridianFlip/2) <= 1:
-      dayCount = 'next day'
-    else:
-      dayCount = str(meridianFlip) + ' days later'
-
-  formattedHrs = math.floor(endTimeHrs) - (meridianFlip * 12)
-  if formattedHrs == 0:
-    displayHrs = 12
-  else:
-    displayHrs = formattedHrs
-
-  if (meridianFlip % 2) == 0:
-    endDay = startDay[0]
-  else:
-    if startDay[0] == 'AM':
+    if startMeridian == 'AM':
       endDay = 'PM'
     else:
       endDay = 'AM'
 
-  new_time = str(displayHrs) + ':' + str("{:02d}".format(formattedMins)) + ' ' + str(endDay) + ' ' + dayCount
+  print('Start Meridian:', startMeridian)
+  print('End Time:', str(sumHr) + ':' + str(sumMin) + ' ' + endDay + ' ' + str(dayCount) + ' days later')
+  result = 'In testing'
+  return result
 
-  print('Start time is ', militaryMin, 'minutes past midnight.')
-  print('Total duration is', totalDur, 'minutes.')
-  print('The end time is', endTime, 'minutes after midnight.')
-  return new_time
-
-print(add_time("10:10 PM", "30:30"))
+print(test_func("10:45 PM", "36:30"))
