@@ -14,7 +14,7 @@ def test_func (start, duration, dayName):
     'saturday': 6,
     'sunday': 7
   }
-  weekDay = week[dayName]
+  weekDay = week[dayName.lower()]
 
   while sumMin > 60:
     sumMin = sumMin - 60
@@ -48,8 +48,8 @@ def test_func (start, duration, dayName):
       if sumDays == value:
         dayOfWeek = key
 
-  print('End Time:', str(sumHr) + ':' + ("{:02d}".format(sumMin)) + ' ' + meridian + ' ' + dayOutput + ' ' + dayOfWeek)
+  print('End Time:', str(sumHr) + ':' + ("{:02d}".format(sumMin)) + ' ' + meridian + ' ' + dayOutput + ' ' + dayOfWeek.capitalize())
   result = 'In testing'
   return result
 
-print(test_func("12:00 PM", "72:00", 'sunday'))
+print(test_func("12:00 PM", "72:00", "Sunday"))
