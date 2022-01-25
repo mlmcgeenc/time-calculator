@@ -1,4 +1,4 @@
-def test_func (start, duration, dayName):
+def add_time(start, duration, dayName=''):
   startTime, meridian = start.split()
   startHr, startMin = startTime.split(':')
   durHr, durMin = duration.split(':')
@@ -14,37 +14,41 @@ def test_func (start, duration, dayName):
     'saturday': 6,
     'sunday': 7
   }
-  weekDay = week[dayName.lower()]
 
   while sumMin > 60:
     sumMin = sumMin - 60
     addHr = addHr + 1
   sumHr = int(startHr) + int(durHr) + addHr
-  while sumHr >= 13:
+  while sumHr >= 12:
     sumHr = sumHr - 12
     if meridian == 'PM':
       meridian = 'AM'
       dayCount = dayCount + 1
     else:
       meridian = 'PM'
+  if sumHr == 0:
+    sumHr = 12
 
   if dayCount < 1:
     dayOutput = ''
   elif dayCount == 1:
-    dayOutput = 'the next day.'
+    dayOutput = ' (next day)'
   else:
-    dayOutput = str(dayCount) + ' days later.'
+    dayOutput = ' (' + str(dayCount) + ' days later)'
 
-  sumDays = weekDay + dayCount
-  while sumDays > 7:
-    sumDays = sumDays - 7
-    continue
-  for key, value in week.items():
-    if sumDays == value:
-      dayOfWeek = key
+  if dayName != '':
+    weekDay = week[dayName.lower()]
+    sumDays = weekDay + dayCount
+    while sumDays > 7:
+      sumDays = sumDays - 7
+      continue
+    for key, value in week.items():
+      if sumDays == value:
+        dayOfWeek = key
+  else:
+    dayOfWeek = ''
+  
+  finalString = str(sumHr) + ':' + ("{:02d}".format(sumMin)) + ' ' + meridian + dayOutput if dayOfWeek == '' else str(sumHr) + ':' + ("{:02d}".format(sumMin)) + ' ' + meridian + ', ' + dayOfWeek.capitalize() + dayOutput
+  return finalString
 
-  print('End Time:', str(sumHr) + ':' + ("{:02d}".format(sumMin)) + ' ' + meridian + ' ' + dayOutput + ' ' + dayOfWeek.capitalize())
-  result = 'In testing'
-  return result
-
-print(test_func("12:00 PM", "2:00", "Sunday"))
+print(add_time("11:40 AM", "0:25"))
