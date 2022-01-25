@@ -36,20 +36,15 @@ def test_func (start, duration, dayName):
     dayOutput = str(dayCount) + ' days later.'
 
   sumDays = weekDay + dayCount
-  if weekDay < 7:
-    for key, value in week.items():
-      if sumDays == value:
-        dayOfWeek = key
-  else:
-    while sumDays > 7:
-      sumDays = sumDays - 7
-      continue
-    for key, value in week.items():
-      if sumDays == value:
-        dayOfWeek = key
+  while sumDays > 7:
+    sumDays = sumDays - 7
+    continue
+  for key, value in week.items():
+    if sumDays == value:
+      dayOfWeek = key
 
   print('End Time:', str(sumHr) + ':' + ("{:02d}".format(sumMin)) + ' ' + meridian + ' ' + dayOutput + ' ' + dayOfWeek.capitalize())
   result = 'In testing'
   return result
 
-print(test_func("12:00 PM", "72:00", "Sunday"))
+print(test_func("12:00 PM", "2:00", "Sunday"))
